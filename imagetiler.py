@@ -5,13 +5,6 @@ Created on Sat Mar  6 11:18:14 2021
 @author: Mikko
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jan 24 11:11:08 2021
-
-@author: Mikko
-"""
-
 from tkinter import *
 from tkinter import Frame, Canvas, Label, Button, Message, LEFT, RIGHT, BOTTOM, ALL, Tk, Entry, BOTH, S, HORIZONTAL
 from tkinter import filedialog
@@ -441,30 +434,9 @@ def init_gui():
     g = Gui1(w)
     w.mainloop()
     
-
 #init_gui()
 
-if True:
-    t = Tiles()
-    print("initializing images")
-    #pathends = ["one","two","three","four","five"]
-        
-    t.get_pictures_from_array(dat[:1800,:])
-            
-    path = "C://Users//Mikko//Documents//LiClipse Workspace//firebase//source2//data//xxx//meitsi3.jpg"
-        
-    print("clustering images")
-    t.tile_image(path)
-    t.cluster_up(20)
-        
-    print("mosaic creation bitches")
-        
-    t.create_mosaic_image(closer_to_clust=True,
-                              blend_original=True,
-                              blend_ratio=0.30)
-    path = "C://Users//Mikko//Documents//LiClipse Workspace//firebase//source2//data//xxx//meitsimosaic{}.jpg".format(int(time.time()))
-        
-    to_image(t.mosaic,path)
+
            
 
 

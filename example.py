@@ -1,4 +1,4 @@
-from mosaic import *
+from imagetiler import *
 
 t = Tiles()
 print("initializing images")
@@ -12,7 +12,7 @@ print("clustering images")
 t.tile_image(path_to_tile_image)
 t.cluster_up(20) #
         
-print("mosaic creation bitches")
+print("mosaic creation...")
         
 t.create_mosaic_image(closer_to_clust=True,
                               blend_original=True,

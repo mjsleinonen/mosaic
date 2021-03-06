@@ -221,7 +221,12 @@ class Gui1:
         t.create_mosaic_image(closer_to_clust=[False,True][self.closer_to_clusters.get()],
                               blend_original=[False,True][self.blend_original.get()],
                               blend_ratio=0.1)
-        path = "C://Users//Mikko//Documents//LiClipse Workspace//firebase//source2//data//xxx//avamosaic{}.jpg".format(int(time.time()))
+        
+        
+        
+        #path = os.path.abspath(__file__)
+        path = os.getcwd()
+        path = path+"\\mosaic{}.jpg".format(int(time.time()))
         
         to_image(t.mosaic,path)
            

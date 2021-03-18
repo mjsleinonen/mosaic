@@ -226,10 +226,10 @@ class Gui1:
         
         #path = os.path.abspath(__file__)
         path = os.getcwd()
-        path = path+"\\mosaic{}.jpg".format(int(time.time()))
+        path = path+"//mosaic{}.jpg".format(int(time.time()))
         
         to_image(t.mosaic,path)
-           
+        print("done, check working directory")
         
 
 class Tiles:

@@ -1,0 +1,4 @@
+PIL
+numpy 
+tkinter
+sklearn

@@ -94,7 +94,6 @@ def array_stats(arr):
 
     return(stats)
     
-
 def towards_mean(arr):
     meancolor = np.array([np.mean(arr[:,:,i]) for i in range(3)])
     
@@ -107,7 +106,6 @@ def towards_mean(arr):
         arr2 /= 2
         
     return(arr2)
-    
     
 class Gui1:
     
@@ -222,8 +220,6 @@ class Gui1:
                               blend_original=[False,True][self.blend_original.get()],
                               blend_ratio=0.1)
         
-        
-        
         #path = os.path.abspath(__file__)
         path = os.getcwd()
         path = path+"//mosaic{}.jpg".format(int(time.time()))
@@ -231,7 +227,6 @@ class Gui1:
         to_image(t.mosaic,path)
         print("done, check working directory")
         
-
 class Tiles:
 
     def __init__(self, tilesize=(32,32)):
@@ -308,7 +303,6 @@ class Tiles:
             self.stats[i,-1] = distance(self.km.cluster_centers_[pred,:],self.stats[i,1:4])
             i += 1
             
-    
     def tile_image(self, path, resize=False, resize_ratio=0.50):
         "the image to be tiled is set"
         ti = Image.open(path)
@@ -425,8 +419,6 @@ class Tiles:
             return(0)
         return(irow)
              
-    
-         
     def tile_stats(self):
         pass
 
@@ -439,7 +431,7 @@ def init_gui():
     g = Gui1(w)
     w.mainloop()
     
-#init_gui()
+init_gui()
 
 
            

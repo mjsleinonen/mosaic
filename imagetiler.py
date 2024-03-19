@@ -78,7 +78,6 @@ def kmeans_model(arr,axis=2,n_clust=20):
     pkmeans = KMeans(n_clusters=n_clust, random_state=0).fit(vectors)
     return(pkmeans)
     
-
 def array_stats_(arr):
     stats = []
     
@@ -186,7 +185,6 @@ class Gui1:
         
         self.tabs.grid(row=0, column=0)
         
-
     def add_folder_to_scheme(self):
         file_name = get_foldername_dialog(self.root, initdir=self.imagespath)
         self.imagespath.set(file_name)

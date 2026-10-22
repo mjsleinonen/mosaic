@@ -1,10 +1,10 @@
-from imagetiler import *
+from imagetiler_lumped import *
 
 t = Tiles()
 print("initializing images")
 #pathends = ["one","two","three","four","five"]
         
-t.get_pictures_from_array(dat[:1800,:])
+t.get_pictures_from_array(data[:1800,:])
             
 path_to_tile_image = "..."
         
@@ -21,6 +21,6 @@ t.create_mosaic_image(closer_to_clust=True,
 import os
 path = os.path.abspath(a_module.__file__)
 
-path = path+meitsimosaic{}.jpg".format(int(time.time()))
+path = "path+meitsimosaic{}.jpg".format(int(time.time()))
         
 to_image(t.mosaic,path)

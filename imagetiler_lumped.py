@@ -518,14 +518,19 @@ class Tiles:
     def tile_stats(self):
         pass
 
-def init_gui():   
+def init_gui():
+
     w = Tk()
+
     lx,ly = 1000,500
     size = "{}x{}".format(lx,ly)
+
     w.title("Mosaic image creator")
     w.geometry(size)
     w.resizable(1, 1) 
+
     g = Gui1(w)
+    
     w.mainloop()
     
     return g

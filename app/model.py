@@ -3,7 +3,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 import os
 
-from tkinter import filedialog
+#from tkinter import filedialog
 
 import contextlib
 from pathlib import Path
@@ -28,12 +28,13 @@ def to_array(photo):
     return(I)
 
 def to_image(arr, path):
+    "saved an numpy array as an image..."
     im = PIL.Image.fromarray(np.uint8(arr))        
     #render = ImageTk.PhotoImage(im)
     im.save((path))
 
 def kmeans_model(arr,axis=2,n_clust=20):
-    
+    "returns a k-means clustering model, with number of clusters as an argument"
     nx,ny = arr.shape[:2]
 
     vectors = arr.reshape(nx*ny,3)
@@ -88,14 +89,6 @@ def row_to_image(row, check=True):
 def distance(vec1,vec2):
     return(np.sqrt(np.sum((vec1-vec2)**2)))
     
-def get_filename_dialog(root, initdir="/"):
-    root.filename =  filedialog.askopenfilename(initialdir=initdir,title="Select file",filetypes=(("jpeg files","*.jpg"),("all files","*.*")))
-    return root.filename
-    
-def get_foldername_dialog(root, initdir="/"):
-    root.foldername =  filedialog.askdirectory(initialdir=initdir,title="Select file")
-    return root.foldername
-    
 def get_files_dir():
     files_path = [os.path.abspath(x) for x in os.listdir()]
     return files_path
@@ -103,7 +96,6 @@ def get_files_dir():
 def get_files_dir_path(path):
     files_path = [os.path.abspath(x) for x in os.listdir()]
     return files_path
-
 
 def array_stats(arr):
     stats = []
@@ -133,13 +125,24 @@ def timestamp():
     
 EXTS = ["jpg","jpeg","png","bmp","tif"]
 
-        
 class Tiles:
-    def __init__(self, tilesize=(32,32)):
+    def __init__(self):
         
         self.arrays = []
-        self.tilesize=tilesize
-            
+
+        "variables"
+        
+        self.imagespath = ""
+        self.tileimage = ""
+        self.pixel_n = 32
+        self.tilesize=(self.pixel_n, self.pixel_n)
+        self.msize = 0
+        self.closer_to_clusters = True
+        self.blend_original = True
+
+    def set_tile_size(self):
+        self.tilesize = (self.pixel_n, self.pixel_n)
+        
     def get_image_set(self, path):
         "folder iterating of self.get_pictures_from_folder"
         self.get_pictures_from_folder(path, False)
@@ -185,13 +188,8 @@ class Tiles:
         
         print("ready...")
         
-    def get_picture(self, get_filename=True, resize=1.0):
+    def get_picture(self, photo_name, get_filename=True, resize=1.0):
         "appends a single picture to mosaic images from path"
-        if get_filename:
-            photo_name = get_filename_dialog(self.root)
-        else:
-            photo_name = Path(os.getcwd())/Path(self.folder_picture_names[self.picture_index])
-            
         img = Image.open(photo_name)
 
         self.pictures.append(img)
@@ -214,7 +212,8 @@ class Tiles:
             
     def get_tile_image(self, path, resize_ratio=1.0):
         "the image to be tiled is set"
-        ti = Image.open(path)
+
+        ti = Image.open(Path(path))
         
         if resize_ratio!=1.0:
             rx = int(resize_ratio*ti.size[0])
@@ -226,7 +225,6 @@ class Tiles:
         print("image size: ", self.tile_image.size)
         
         self.tile_array = to_array(self.tile_image)
-        
         self.shp = self.tile_array.shape
         
     def cluster_up(self, n_clusters=25):
@@ -326,6 +324,36 @@ class Tiles:
         else:
             return(0)
         return(irow)
-             
-    def tile_stats(self):
-        pass
+
+    ########
+
+    def create_mosaic(self):
+        
+        ns = self.pixel_n.get()
+        tilesize = (ns, ns)
+        
+        #self.t = Tiles(tilesize=tilesize)
+        
+        print("initializing images")
+
+        path = self.imagespath
+        self.get_image_set(path)
+        
+        print("clustering images")
+        
+        rsratio = self.msize.get()/100
+        self.get_tile_image(self.tileimage, resize_ratio=rsratio)
+
+        self.cluster_up(self.nc.get())
+        
+        print("mosaic creation....")
+        
+        self.create_mosaic_image(
+                            closer_to_clust=[False,True][self.closer_to_clusters],
+                            blend_original=[False,True][self.blend_original],
+                            blend_ratio=0.1
+        )
+        path = Path(os.getcwd())/Path(f"mosaic_{timestamp()}.jpg")
+        to_image(self.t.mosaic, path)
+
+        print("mosaic done... {}".format(path))

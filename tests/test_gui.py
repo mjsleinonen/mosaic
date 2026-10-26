@@ -10,3 +10,7 @@ def tyhja_gui():
 
 def test_gui_init(tyhja_gui):
     assert hasattr(tyhja_gui, "root")
+
+def test_gui_init(tyhja_gui):
+    assert hasattr(tyhja_gui, "variables")
+    assert "imagepath" in tyhja_gui.variables

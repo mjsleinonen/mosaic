@@ -42,7 +42,7 @@ class ImageTileController:
             pass
         elif napin_nimi == "getpicture":
             pass
-        elif napin_nimi ==" create":
+        elif napin_nimi == "create":
             self.model.create_mosaic()
         else:
             pass

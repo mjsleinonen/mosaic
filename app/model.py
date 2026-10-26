@@ -122,6 +122,8 @@ def ext_check(name, exts):
 
 def timestamp():
     return int(time.time())
+
+
     
 EXTS = ["jpg","jpeg","png","bmp","tif"]
 
@@ -176,8 +178,16 @@ class Tiles:
         
         paths = [os.path.abspath(x.path) for x in os.scandir(path) if ext_check(x.name, EXTS)]
         
-        for path in paths:
-            img = Image.open(path).resize(self.tilesize)
+        for i,path in enumerate(paths):
+            try:
+                img = Image.open(path).resize(self.tilesize)
+            except Exception as exp:
+                print(exp)
+                continue
+
+            if i%1000==0:
+                print(i/len(paths)," ", len(paths)," ", i)
+
             arr = to_array(img)
             
             if arr.shape[2]==3:
@@ -332,19 +342,13 @@ class Tiles:
     ########
 
     def create_mosaic(self):
-        
-        ns = self.pixel_n.get()
-        tilesize = (ns, ns)
-        
-        #self.t = Tiles(tilesize=tilesize)
-        
         try:
-            print("initializing images")
+            print("initializing images...")
 
             path = self.imagespath
             self.get_image_set(path)
             
-            print("clustering images")
+            print("clustering images...")
             
             rsratio = self.msize.get()/100
             self.get_tile_image(self.tileimage, resize_ratio=rsratio)
@@ -362,5 +366,6 @@ class Tiles:
             to_image(self.t.mosaic, path)
 
             print("mosaic done... {}".format(path))
-        except:
+        except Exception as exp:
+
             pass

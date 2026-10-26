@@ -4,3 +4,42 @@
 *.parquet
 *.json
 
+# === Pythonin kääntämät tiedostot ja välimuistit ===
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.cache/
+
+# === Ympäristöt ja paketinhallinta ===
+.venv/
+venv/
+ENV/
+env/
+dist/
+build/
+*.egg-info/
+
+# === Data- ja kuvatiedostot ===
+# Estetään isojen data- tai testikuvakansioiden meno Gitilille (jos sinulla on sellaisia)
+# data/
+# temp_images/
+*.log
+
+# === Kehitystyökalujen (IDE) omat tiedostot ===
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm / IntelliJ
+.idea/
+
+# Jupyter Notebooks välimuistit
+.ipynb_checkpoints
+
+# === Käyttöjärjestelmien omat roskat ===
+.DS_Store
+Thumbs.db

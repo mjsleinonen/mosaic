@@ -37,7 +37,7 @@ def kmeans_model(arr,axis=2,n_clust=20):
     "returns a k-means clustering model, with number of clusters as an argument"
     nx,ny = arr.shape[:2]
 
-    vectors = arr.reshape(nx*ny,3)
+    vectors = arr.reshape(nx*ny, 3)
     pkmeans = KMeans(n_clusters=n_clust, random_state=0).fit(vectors)
     return pkmeans
 
@@ -123,8 +123,6 @@ def ext_check(name, exts):
 def timestamp():
     return int(time.time())
 
-
-    
 EXTS = ["jpg","jpeg","png","bmp","tif"]
 
 class Tiles:
@@ -141,6 +139,7 @@ class Tiles:
         self.msize = 0
         self.closer_to_clusters = True
         self.blend_original = True
+        self.n_clusters = 25
 
         self.variables = {
             "imagespath":self.imagespath,
@@ -212,7 +211,7 @@ class Tiles:
         "mosaic image array set statistics... used in tiling"
         i = 0
         for arr in self.arrays:
-            self.stats[i,1:4] = array_stats(arr)[0]
+            self.stats[i, 1:4] = array_stats(arr)[0]
             i += 1
             
     def set_clusters(self):
@@ -350,10 +349,10 @@ class Tiles:
             
             print("clustering images...")
             
-            rsratio = self.msize.get()/100
+            rsratio = self.msize/100
             self.get_tile_image(self.tileimage, resize_ratio=rsratio)
 
-            self.cluster_up(self.nc.get())
+            self.cluster_up(self.n_clusters)
             
             print("mosaic creation....")
             
@@ -367,5 +366,5 @@ class Tiles:
 
             print("mosaic done... {}".format(path))
         except Exception as exp:
-
+            print(exp)
             pass

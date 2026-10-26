@@ -590,16 +590,15 @@ class Gui1_0:
         
         self.t = Tiles(tilesize=tilesize)
         
-        print("initializing images")
+        print("initializing images...")
         path = self.imagespath.get()
         #pathends = ["one","two","three","four","five"]
         
         self.t.get_image_set(path)
             
         path = self.tileimage.get()   
-        #path = "C://Users//Mikko//Documents//LiClipse Workspace//firebase//source2//data//xxx//meitsi.jpg"
         
-        print("clustering images")
+        print("clustering images...")
         
         rsratio = self.msize.get()/100
         self.t.get_tile_image(path, resize_ratio=rsratio)

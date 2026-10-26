@@ -140,6 +140,10 @@ class Tiles:
         self.closer_to_clusters = True
         self.blend_original = True
 
+        self.variables = {
+            "imagespath":self.imagespath,
+        }
+
     def set_tile_size(self):
         self.tilesize = (self.pixel_n, self.pixel_n)
         
@@ -334,26 +338,29 @@ class Tiles:
         
         #self.t = Tiles(tilesize=tilesize)
         
-        print("initializing images")
+        try:
+            print("initializing images")
 
-        path = self.imagespath
-        self.get_image_set(path)
-        
-        print("clustering images")
-        
-        rsratio = self.msize.get()/100
-        self.get_tile_image(self.tileimage, resize_ratio=rsratio)
+            path = self.imagespath
+            self.get_image_set(path)
+            
+            print("clustering images")
+            
+            rsratio = self.msize.get()/100
+            self.get_tile_image(self.tileimage, resize_ratio=rsratio)
 
-        self.cluster_up(self.nc.get())
-        
-        print("mosaic creation....")
-        
-        self.create_mosaic_image(
-                            closer_to_clust=[False,True][self.closer_to_clusters],
-                            blend_original=[False,True][self.blend_original],
-                            blend_ratio=0.1
-        )
-        path = Path(os.getcwd())/Path(f"mosaic_{timestamp()}.jpg")
-        to_image(self.t.mosaic, path)
+            self.cluster_up(self.nc.get())
+            
+            print("mosaic creation....")
+            
+            self.create_mosaic_image(
+                                closer_to_clust=[False,True][self.closer_to_clusters],
+                                blend_original=[False,True][self.blend_original],
+                                blend_ratio=0.1
+            )
+            path = Path(os.getcwd())/Path(f"mosaic_{timestamp()}.jpg")
+            to_image(self.t.mosaic, path)
 
-        print("mosaic done... {}".format(path))
+            print("mosaic done... {}".format(path))
+        except:
+            pass

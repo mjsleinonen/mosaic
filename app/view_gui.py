@@ -15,15 +15,25 @@ import PIL
 
 from pathlib import Path
 
-from .model import visit_dir
-from .model import ext_check
-from .model import EXTS
-from .model import Tiles
-from .model import to_image
-from .model import timestamp
-from .model import get_filename_dialog
-from .model import get_foldername_dialog
+import time
+import contextlib
 
+@contextlib.contextmanager
+def visit_dir(dirname):
+    curdir = os.getcwd()
+    
+    os.chdir(dirname)
+    try:
+        yield
+    finally:
+        os.chdir(curdir)
+
+def ext_check(name, exts):
+    return name.split(".")[-1] in exts
+
+def timestamp():
+    return int(time.time())
+    
 def get_filename_dialog(root, initdir="/"):
     root.filename =  filedialog.askopenfilename(initialdir=initdir,title="Select file",filetypes=(("jpeg files","*.jpg"),("all files","*.*")))
     return root.filename
@@ -31,14 +41,41 @@ def get_filename_dialog(root, initdir="/"):
 def get_foldername_dialog(root, initdir="/"):
     root.foldername =  filedialog.askdirectory(initialdir=initdir,title="Select file")
     return root.foldername
+
+def main_window():
+
+    w = Tk()
+
+    lx,ly = 1000,500
+    size = "{}x{}".format(lx,ly)
+
+    w.title("Mosaic image creator")
+    w.geometry(size)
+    w.resizable(1, 1) 
+    
+    return w
+
+EXTS = ["jpg","jpeg","png","bmp","tif"]
+NO_ARGUMENT = object()
     
 class Gui:
     
-    def __init__(self, root):
+    def __init__(self, root=NO_ARGUMENT):
+
+        if not root is NO_ARGUMENT:
+            self.root = root
+        else:
+            self.root = main_window()
+
+        self.set_up_gui()
+
+    def set_root(self, root):
         self.root = root
+
+    def set_up_gui(self):
         self.menubar = Menu(self.root)
         
-        self.windowsize = root.size()
+        self.windowsize = self.root.size()
         self.fdx,self.fdy = self.windowsize
         
         "-- option menu widgets"
@@ -51,7 +88,7 @@ class Gui:
         self.filemenu.add_command(label ='Open...', command = None) 
         self.filemenu.add_command(label ='Save', command = None) 
         self.filemenu.add_separator() 
-        self.filemenu.add_command(label ='Exit', command = root.destroy) 
+        self.filemenu.add_command(label ='Exit', command = self.root.destroy) 
         
         self.root.config(menu = self.menubar)
 
@@ -73,7 +110,7 @@ class Gui:
         "-- first tab and sub widgets"
         
         #self.tabs = ttk.Notebook(root, width=self.fdx, height=self.fdy)
-        self.main = Frame(root, highlightbackground="grey", highlightthickness=1)
+        self.main = Frame(self.root, highlightbackground="grey", highlightthickness=1)
         self.main.pack(fill="both")
         
         f1 = Frame(self.main, highlightbackground="grey", highlightthickness=1)
@@ -127,7 +164,7 @@ class Gui:
         self.cb2 = Checkbutton(f4, text="Closer to cluster centers", variable=self.closer_to_clusters, padx=20)
         self.cb2.pack(anchor=W)
         
-        bbtn3 = Button(f4, width=15, text="Create mosaic", font=fontti, command=self.create_mosaic, height=1)
+        bbtn3 = Button(f4, width=15, text="Create mosaic", font=fontti, height=1)
         bbtn3.pack(anchor=W)
         
         self.f5 = Frame(f1, highlightbackground="grey", highlightthickness=1)
@@ -147,7 +184,8 @@ class Gui:
             "tileimage":self.tileimage,
             "blend_original":self.blend_original, 
             "close_to_clusters":self.closer_to_clusters,
-            "npixel":self.pixel_n
+            "npixel":self.pixel_n, 
+            "misize":self.msize
         }
 
     def set_button_callback(self, btn_key, callback_funktio):

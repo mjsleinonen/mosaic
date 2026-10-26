@@ -12,7 +12,7 @@ nykyinen_kansio = Path(__file__).resolve().parent
 ylempi_kansio = nykyinen_kansio.parent
 sys.path.insert(0, str(ylempi_kansio))
 
-class TestKarttaSovellus(unittest.TestCase):
+class TestMosaicSovellus(unittest.TestCase):
 
     def setUp(self):
         """Suoritetaan AUTOMAATTISESTI ennen JOKAISTA testifunktiota."""

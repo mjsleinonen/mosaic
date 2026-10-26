@@ -254,7 +254,7 @@ class Tiles:
         self.cluster_array = self.cluster_array.astype(int)
         self.set_clusters()
         
-    def closer_to_clusters(self, i, ratio):
+    def move_closer_to_clusters(self, i, ratio):
         "handicap #1 of the final product - tile array moved closed to cluster center"
         
         arr = self.arrays[i].copy()
@@ -292,7 +292,7 @@ class Tiles:
                 
                 if closer_to_clust:
                     r = np.random.uniform(np.random.uniform(),1)
-                    arr = self.closer_to_clusters(assignments[i,j],r)
+                    arr = self.move_closer_to_clusters(assignments[i,j],r)
                     #arr = towards_mean(arr)
                 else:
                     arr  = self.arrays[assignments[i,j]]
@@ -362,9 +362,9 @@ class Tiles:
                                 blend_ratio=0.1
             )
             path = Path(os.getcwd())/Path(f"mosaic_{timestamp()}.jpg")
-            to_image(self.t.mosaic, path)
+            to_image(self.mosaic, path)
 
             print("mosaic done... {}".format(path))
         except Exception as exp:
-            print(exp)
+            raise exp
             pass

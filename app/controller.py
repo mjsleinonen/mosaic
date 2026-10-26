@@ -63,7 +63,7 @@ class ImageTileController:
         self.model.tilesize=(npixel, npixel)
         self.model.msize = self.view.msize.get()
         self.model.closer_to_clusters = self.view.closer_to_clusters.get()
-        self.model.blend_original = self.view.blend_original
+        self.model.blend_original = self.view.blend_original.get()
         self.model.n_clusters = self.view.nc.get()
 
         print("variables synced...")

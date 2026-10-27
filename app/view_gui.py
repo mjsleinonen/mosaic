@@ -112,7 +112,8 @@ class Gui:
 
         "-- gui variables "
         
-        fontti = font.Font(size=15)
+        fontti = font.Font(size=14)
+        fontti2 = font.Font(size=16)
     
         self.imagespath = StringVar()
         cf = os.getcwd()
@@ -201,7 +202,7 @@ class Gui:
         self.f5 = Frame(f2, highlightbackground="grey", highlightthickness=1)
         self.f5.pack(side=LEFT, fill="both", padx=1, pady=1, expand=True)
 
-        self.tile_stats = Label(self.f5, textvariable=self.tile_stats_text, width=100)
+        self.tile_stats = Label(self.f5, textvariable=self.tile_stats_text, width=100, font=fontti2)
         self.tile_stats.pack(side=TOP, fill="x")
 
         self.f5_1 = Frame(self.f5, highlightbackground="grey", highlightthickness=1)
@@ -223,7 +224,8 @@ class Gui:
             "blend_original":self.blend_original, 
             "close_to_clusters":self.closer_to_clusters,
             "npixel":self.pixel_n, 
-            "misize":self.msize
+            "misize":self.msize,
+            "nclust":self.nc
         }
 
     def set_button_callback(self, btn_key, callback_funktio):
@@ -243,7 +245,7 @@ class Gui:
 
             self.filesize = arvioi_jpeg_koko_mb(width, height)
 
-            text = "Estmated tile mosaic image size: {}".format(self.filesize)
+            text = "Estmated tile mosaic image size: {} \n".format(self.filesize)
             text += f"Width: {width}, Height: {height}"
 
             self.tile_stats_text.set(text)

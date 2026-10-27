@@ -125,6 +125,20 @@ def timestamp():
 
 EXTS = ["jpg","jpeg","png","bmp","tif"]
 
+class Variable:
+    def __init__(self, value, vartype=int):
+        self._value = value
+        self.vartype = vartype
+
+    @property
+    def value(self):
+        print("[GETTER] ...")
+        return self._value
+
+    @value.setter
+    def value(self, new_value):
+        self._value = new_value
+
 class Tiles:
     def __init__(self):
         
@@ -132,17 +146,24 @@ class Tiles:
 
         "variables"
         
-        self.imagespath = ""
-        self.tileimage = ""
-        self.pixel_n = 32
+        self.imagespath = Variable("", str)
+        self.tileimage = Variable("", str)
+        self.pixel_n = Variable(32, int)
         self.tilesize=(self.pixel_n, self.pixel_n)
-        self.msize = 0
-        self.closer_to_clusters = True
-        self.blend_original = True
-        self.n_clusters = 25
+        self.msize = Variable(0, int)
+        self.closer_to_clusters = Variable(True, bool)
+        self.blend_original = Variable(True, bool)
+        self.n_clusters = Variable(12, int)
 
+        'variables dict for mvc api...'
         self.variables = {
-            "imagespath":self.imagespath,
+            "imagepath":self.imagespath,
+            "tileimage":self.tileimage,
+            "blend_original":self.blend_original, 
+            "close_to_clusters":self.closer_to_clusters,
+            "npixel":self.pixel_n, 
+            "misize":self.msize,
+            "nclust":self.n_clusters
         }
 
     def set_tile_size(self):
@@ -344,21 +365,23 @@ class Tiles:
         try:
             print("initializing images...")
 
-            path = self.imagespath
+            self.set_tile_size()
+
+            path = self.imagespath.value
             self.get_image_set(path)
             
             print("clustering images...")
             
             rsratio = self.msize/100
-            self.get_tile_image(self.tileimage, resize_ratio=rsratio)
+            self.get_tile_image(self.tileimage.value, resize_ratio=rsratio)
 
-            self.cluster_up(self.n_clusters)
+            self.cluster_up(self.n_clusters.value)
             
             print("mosaic creation....")
             
             self.create_mosaic_image(
-                                closer_to_clust=[False,True][self.closer_to_clusters],
-                                blend_original=[False,True][self.blend_original],
+                                closer_to_clust=[False,True][self.closer_to_clusters.value],
+                                blend_original=[False,True][self.blend_original.value],
                                 blend_ratio=0.1
             )
             path = Path(os.getcwd())/Path(f"mosaic_{timestamp()}.jpg")

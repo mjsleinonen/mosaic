@@ -53,7 +53,7 @@ class ImageTileController:
         tile_image_path = self.view.variables[self.TILE_IMAGE_KEY].get()
         self.model.get_tile_image(tile_image_path)
 
-    def sync_variables(self):
+    def sync_variables_(self):
         "get variables from view to model"
 
         self.model.imagespath = self.view.imagespath.get()
@@ -65,6 +65,13 @@ class ImageTileController:
         self.model.closer_to_clusters = self.view.closer_to_clusters.get()
         self.model.blend_original = self.view.blend_original.get()
         self.model.n_clusters = self.view.nc.get()
+
+        print("variables synced...")
+
+    def sync_variables(self):
+        for key in self.view.variables:
+            var_value = self.view.variables[key].get()
+            self.model.variables[key].value = var_value
 
         print("variables synced...")
 

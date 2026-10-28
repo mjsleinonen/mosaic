@@ -224,9 +224,14 @@ class Tiles:
         
     def get_picture(self, photo_name, get_filename=True, resize=1.0):
         "appends a single picture to mosaic images from path"
-        img = Image.open(photo_name)
 
-        self.pictures.append(img)
+        try:
+            img = Image.open(photo_name)
+
+            self.pictures.append(img)
+        except Exception as exp:
+            print("...")
+            return
     
     def set_means(self):
         "mosaic image array set statistics... used in tiling"

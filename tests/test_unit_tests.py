@@ -29,7 +29,7 @@ class TestMosaicSovellus(unittest.TestCase):
 
     def test_initial_model_state(self):
         """Testataan, ."""
-        self.assertEqual(self.model.pixel_n, 32)
+        self.assertEqual(self.model.pixel_n.value, 32)
 
 
 if __name__ == '__main__':

@@ -26,3 +26,8 @@ def test_model_variable_keys(tyhja_model, variable_keys):
 
     for vk in variable_keys:
         assert vk in tyhja_model.variables
+
+def test_model_init(tyhja_model, capsys):
+    tyhja_model.get_picture("\\\\")
+    kaapatut = capsys.readouterr()
+    assert kaapatut.out == "...\n"

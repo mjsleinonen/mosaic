@@ -245,7 +245,7 @@ class Gui:
 
             self.filesize = arvioi_jpeg_koko_mb(width, height)
 
-            text = "Estmated tile mosaic image size: {} \n".format(self.filesize)
+            text = "Estmated tile mosaic image size: {} Mb \n".format(self.filesize)
             text += f"Width: {width}, Height: {height}"
 
             self.tile_stats_text.set(text)
